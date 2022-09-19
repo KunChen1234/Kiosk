@@ -29,9 +29,9 @@ function spErrCB(err: Error | null | undefined): void {
  * @returns {[string | null, boolean, RfidTags | null]} - Output for the rfid read.
  */
 async function parseData(
-	data: Buffer,  
-	readTag: boolean, 
-	tagId: string | null, 
+	data: Buffer,
+	readTag: boolean,
+	tagId: string | null,
 	ipAddress: string,
 	prismaClient: PrismaClientInstance,
 	comPort: SerialPort
