@@ -1,0 +1,83 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model DeviceInfo {
+  id Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  serialNumber String @unique @db.VarChar(255)
+  macAddress String @unique @db.VarChar(17)
+  deviceId String @db.VarChar(255)
+  groupId String @db.VarChar(255)
+  lastContact DateTime
+  firmwareVersion String @db.VarChar(255)
+  configVersion String @db.VarChar(255)
+  isDeployed Boolean @default(false)
+  ipAddress String @db.VarChar(255)
+  uwbCapable Boolean @default(false)
+  lteCapable Boolean @default(false)
+  bleMac String @db.VarChar(255)
+  userId String? @db.VarChar(255)
+  uwbId String? @db.VarChar(255)
+  bleId String? @db.VarChar(255)
+  rfid String? @db.VarChar(255)
+  imei String? @db.VarChar(255)
+}
+
+model RfidTags {
+  id Int @id @unique @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  rfidTagId String @unique
+  tagType String
+  lastScannedTime DateTime
+  lastScannedLocation String
+  serialNumber String?
+  macAddress String?
+  assignedUser String?
+  vehicleRegistration String?
+  assetTagType String?
+}
+
+model RfidScanLog {
+  id Int @id @unique @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  scannerId String
+  rfidTagId String
+  scanTime DateTime @default(now())
+  ipAddress String
+  rfidTagData String?
+}
+
+model RfidScanners {
+  id Int @id @unique @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  scannerName String
+  scannerId String
+  scannerChannel Int @default(1)
+  locationName String
+  ipAddress String
+  mapCoord String?
+  gpsCoord String?
+}
+
+model Users {
+  id Int @id @unique @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  userId String @unique
+  idTag String @unique
+  userName String
+  associatedDevices String[]
+}
